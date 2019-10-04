@@ -29,6 +29,7 @@ export default {
       probeType: this.probeType,
       pullUpLoad: this.pullUpLoad,
       click:true,
+      // mouseWheel: true,
     })
 
     this.scroll.on('scroll', position => {

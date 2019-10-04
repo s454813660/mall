@@ -25,7 +25,7 @@
                     ></tab-control>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
-    <back-top @click.native="backClick" v-show="isShowBack"></back-top>
+    <back-top @click.native="backTopClick" v-show="isShowBack"></back-top>
   </div>
 </template>
 <script>
@@ -48,9 +48,10 @@ import HomeFeatureView from './homeComps/HomreFeatureview'
  * 
  */
 import {getHomeMultiData, getHomeData} from 'network/home.js'
-import { debounce } from 'common/utils'
+import { mixin } from 'common/mixin'
 export default {
   name: "Home",
+  mixins: [mixin],
   components: {
     NavBar,
     TabControl,
@@ -76,6 +77,7 @@ export default {
       tabOffsetTop: 0,
       isTabFixed: false,
       saveY: 0,
+      homeRefresh: null,
     }
   },
   computed:{
@@ -119,7 +121,7 @@ export default {
       this.$refs.tabControl1.currentIndex = index
       this.$refs.tabControl2.currentIndex = index
     },
-    backClick() {
+    backTopClick() {
       this.$refs.scroll.scrollTo(0,0,500)
     },
     showBack(position){
@@ -145,19 +147,17 @@ export default {
     this.getHomeData('sell')
   },
   mounted() {
-    const refresh = debounce(this.$refs.scroll.refresh, 200)
-    this.$bus.$on('goodsImageLoad', () => {
-      // console.log('接收图片加载完成');
-      refresh()
-    })
+    this.tabClick(0)
   },
   activated() {
+    this.$refs.scroll.refresh()
     this.$refs.scroll.scrollTo(0, this.saveY, 0)
     this.$refs.scroll.refresh()
   },
   deactivated() {
     this.saveY = this.$refs.scroll.getScrollY()
-    // console.log(this.saveY);
+    console.log(this.saveY);
+    this.$bus.$off('goodsImageLoad')
   },
 };
 </script>

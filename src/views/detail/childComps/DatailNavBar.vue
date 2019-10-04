@@ -26,13 +26,14 @@ export default {
   },
   data() {
     return {
-      titles: ['商品', '参数', '评论', '详情'],
+      titles: ['商品', '详情', '参数', '评论'],
       currentIndex: 0,
     }
   },
   methods: {
     itemClick(index) {
       this.currentIndex = index
+      this.$emit('titleClick', index)
     },
     backClick() {
       this.$router.go(-1)
@@ -41,6 +42,11 @@ export default {
 }
 </script>
 <style scoped>
+.detail-nav {
+  position: relative;
+  z-index: 9;
+  background-color: #fff;
+}
 .title {
   display: flex;
   font-size: 14px;
