@@ -11,7 +11,8 @@
           <div v-for="(item, index) in titles"
                class="title-item"
                @click="itemClick(index)"
-               :class="{active: currentIndex === index}">{{item}}</div>
+               :class="{active: currentIndex === index}"
+               :key="index">{{item}}</div>
         </div>
       </template>
     </nav-bar>

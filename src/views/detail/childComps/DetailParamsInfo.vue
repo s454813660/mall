@@ -47,10 +47,15 @@ export default {
   border-collapse: collapse;
   line-height: 42px;
 }
+
 .params-info table td {
-  white-space: nowrap;
+  /* white-space: normal; */
   padding-right: 5px;
   border-bottom: 1px solid #f7f7f7;
+}
+.params-info table td:first-child {
+  white-space: nowrap;
+  padding-right: 10px;
 }
 .params-info .parameter .key {
   color: #b3b3b3;

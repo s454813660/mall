@@ -5,16 +5,22 @@
       <detail-swiper :topImages="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shopInfo="shopInfo"></detail-shop-info>
-      <detail-goods-info :goodsInfo="goodsInfo" @detailImgLoad="detailImgLoad" ref="goods"></detail-goods-info>
+      <detail-goods-info :goodsInfo="goodsInfo"
+                         @detailImgLoad="detailImgLoad"
+                         ref="goods"></detail-goods-info>
       <detail-params-info :paramInfo="paramInfo" ref="params"></detail-params-info>
       <detail-rate-info :rateInfo="rateInfo" ref="rate"></detail-rate-info>
       <detail-goods-recommend :goodsItem="goodsItem"></detail-goods-recommend>
     </scroll>
+    <detail-bottom-bar @addToCart="addToCart"></detail-bottom-bar>
+    <back-top @click.native="backTopClick"
+              v-show="isShowBack"></back-top>
+    
   </div>
 </template>
 <script>
 import Scroll from 'components/common/scroll/Scroll'
-
+import BackTop from 'components/content/backtop/BackTop'
 
 import DetailNavBar from './childComps/DatailNavBar'
 import DetailSwiper from './childComps/DetailSwiper'
@@ -24,17 +30,18 @@ import DetailGoodsInfo from './childComps/DetailGoodsInfo'
 import DetailParamsInfo from './childComps/DetailParamsInfo'
 import DetailRateInfo from './childComps/DetailRateInfo'
 import DetailGoodsRecommend from './childComps/DetailGoodsRecommend'
-
+import DetailBottomBar from './childComps/DetailBottomBar'
 import { getDetail, 
          getDetailRecommend,
          Goods,
          Shop,
          Params } from 'network/detail'
-import { mixin } from 'common/mixin'
+import { addListenerRefresh, addListenerBackTop } from 'common/mixin'
+
 import { debounce } from 'common/utils'
 export default {
   name: 'Detail',
-  mixins: [mixin],
+  mixins: [addListenerRefresh, addListenerBackTop],
   data() {
     return {
       iid: null,
@@ -61,7 +68,8 @@ export default {
     DetailGoodsInfo,
     DetailParamsInfo,
     DetailRateInfo,
-    DetailGoodsRecommend
+    DetailGoodsRecommend,
+    DetailBottomBar
   },
   created() {
     // 1.保存iid
@@ -109,7 +117,7 @@ export default {
       if(this.$refs.rate.$el.offsetTop){
         this.themeTopYs.push(this.$refs.rate.$el.offsetTop)
       }
-      console.log(this.themeTopYs);
+      // console.log(this.themeTopYs);
     },
     titleClick(index) {
       this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 200)
@@ -130,6 +138,22 @@ export default {
           this.$refs.detailNav.currentIndex = this.currentIndex
         }
       }
+
+      this.isShowBack = position.y < -800
+    },
+    addToCart() {
+      // console.log('监听到点击');
+      //  1.获取购物车需要展示的商品信息
+      const product = {}
+      product.image = this.topImages[0]
+      product.title = this.goods.title
+      product.desc = this.goods.desc
+      product.price = this.goods.lowPrice
+      product.iid = this.iid
+
+      //  2.将商品添加到购物车
+      // this.$store.commit('addCart',product)
+      this.$store.dispatch('addCart', product)
     }
   }
 }
@@ -148,7 +172,8 @@ export default {
   top: 44px;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 49px;
+  width: 100%;
 }
 
 </style>

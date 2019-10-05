@@ -36,7 +36,7 @@ import NavBar from "components/common/navbar/NavBar";
 import TabControl from 'components/content/tabcontrol/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
 import Scroll from "components/common/scroll/Scroll";
-import BackTop from 'components/content/backtop/BackTop'
+
 /**
  * 引用私有组件
  */
@@ -48,16 +48,16 @@ import HomeFeatureView from './homeComps/HomreFeatureview'
  * 
  */
 import {getHomeMultiData, getHomeData} from 'network/home.js'
-import { mixin } from 'common/mixin'
+import { addListenerRefresh, addListenerBackTop } from 'common/mixin'
 export default {
   name: "Home",
-  mixins: [mixin],
+  mixins: [addListenerRefresh, addListenerBackTop],
   components: {
     NavBar,
     TabControl,
     GoodsList,
     Scroll,
-    BackTop,
+    
 
     HomeSwiper,
     HomeRecommendView,
@@ -73,7 +73,7 @@ export default {
         'sell': {page:0, list: []},
       },
       currentType: 'pop',
-      isShowBack: false,
+      
       tabOffsetTop: 0,
       isTabFixed: false,
       saveY: 0,
@@ -121,9 +121,7 @@ export default {
       this.$refs.tabControl1.currentIndex = index
       this.$refs.tabControl2.currentIndex = index
     },
-    backTopClick() {
-      this.$refs.scroll.scrollTo(0,0,500)
-    },
+    
     showBack(position){
       this.isShowBack = position.y < -800
       this.isTabFixed = (-position.y) > this.tabOffsetTop
