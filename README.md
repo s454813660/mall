@@ -1,5 +1,5 @@
 # mall
-联系项目，接口需要另行更换
+练习项目，接口需要另行更换
 ## Project setup
 ```
 npm install
