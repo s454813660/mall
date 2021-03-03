@@ -1,28 +1,45 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+	<div id="app">
+		<transition name="app">
+			<keep-alive exclude="Detail">
+				<router-view class="router-view"></router-view>
+			</keep-alive>
+		</transition>
+		<main-tab-bar></main-tab-bar>
+	</div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import MainTabBar from "components/content/maintabbar/MainTabBar";
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
+	name: "app",
+	components: {
+		MainTabBar
+	}
+};
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.app-enter-active {
+	transition: all 0.3s ease;
+}
+.app-leave-active {
+	transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.app-enter, .app-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+	transform: translateX(10px);
+	opacity: 0;
+}
+.router-view {
+	width: 1 00%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	margin: 0 auto;
+	overflow-y: auto;
+	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
 }
 </style>
