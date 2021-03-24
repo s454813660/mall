@@ -7,7 +7,6 @@
 </template>
 <script>
 import BScroll from 'better-scroll'
-import { log } from 'util';
 export default {
   name: 'Scroll',
   data() {

@@ -8,7 +8,7 @@
       <span>总价</span>
       <span>￥{{totalPrice.toFixed(2)}}</span>
     </div>
-    <div class="calculate">
+    <div class="calculate" @click="countPrice">
       去计算({{calcCount}})
     </div>
   </div>
@@ -49,6 +49,12 @@ export default {
         this.cartList.forEach(item => item.checked = false)
       }else{
         this.cartList.forEach(item => item.checked = true)
+      }
+    },
+
+    countPrice() {
+      if(this.calcCount === 0 ) {
+        this.$toast.show("请添加商品");
       }
     }
   },
