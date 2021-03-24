@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseURL = 'http://123.207.32.32:8000/api/h8'
+const baseURL = 'http://123.207.32.32:8000/mvp/h8'
 
 export function request(config) {
   const instance = axios.create({
